@@ -337,3 +337,14 @@ TEST(Generator_Resolver, example_draft4_trailing_hash_with_ref) {
     }
   })JSON");
 }
+
+TEST(Generator_Resolver, official_metaschema_no_override) {
+  RESOLVER_INIT(resolver);
+
+  const auto schema = resolver("http://json-schema.org/draft-04/schema#");
+  EXPECT_TRUE(schema.has_value());
+  EXPECT_TRUE(schema.value().is_object());
+  EXPECT_TRUE(schema.value().defines("$schema"));
+  EXPECT_EQ(schema.value().at("$schema").to_string(),
+            "http://json-schema.org/draft-04/schema#");
+}

@@ -98,7 +98,9 @@ auto Resolver::operator()(std::string_view identifier) const
 
     auto schema{internal_schema_reader(result->second.path.value())};
     assert(sourcemeta::core::is_schema(schema));
-    if (schema.is_object() && result->second.dialect.has_value()) {
+    if (schema.is_object() && result->second.dialect.has_value() &&
+        !sourcemeta::core::schema_official_resolver(result->first)
+             .has_value()) {
       schema.assign("$schema",
                     sourcemeta::core::JSON{result->second.dialect.value()});
     }
