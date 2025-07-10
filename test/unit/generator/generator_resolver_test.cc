@@ -5,14 +5,14 @@
 #include <sourcemeta/registry/generator.h>
 
 #define RESOLVER_INIT(name)                                                    \
-  sourcemeta::registry::Resolver(name);                                        \
+  sourcemeta::registry::Resolver name;                                         \
   sourcemeta::registry::Configuration configuration{                           \
       CONFIGURATION_PATH,                                                      \
       sourcemeta::core::read_json(CONFIGURATION_SCHEMA_PATH)};
 
 #define RESOLVER_COLLECTION_INIT(name, collection_name)                        \
   const sourcemeta::registry::Collection name{                                 \
-      configuration.base(), (collection_name),                                 \
+      configuration.base(), collection_name,                                   \
       configuration.get().at("schemas").at(collection_name)};
 
 #define RESOLVER_EXPECT(resolver, expected_uri, expected_schema)               \
@@ -30,7 +30,7 @@
                      expected_current_uri, expected_final_uri,                 \
                      expected_schema)                                          \
   {                                                                            \
-    RESOLVER_COLLECTION_INIT((collection), (collection_name));                 \
+    RESOLVER_COLLECTION_INIT(collection, collection_name);                     \
     const auto result{RESOLVER_IMPORT(resolver, collection, (relative_path))}; \
     EXPECT_EQ(result.first, (expected_current_uri));                           \
     EXPECT_EQ(result.second, (expected_final_uri));                            \
