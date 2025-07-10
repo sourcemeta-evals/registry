@@ -158,10 +158,9 @@ auto Resolver::add(const Configuration &configuration,
                 auto value_copy = value;
                 value_copy.relative_to(rebase.first);
                 if (value_copy.is_relative()) {
-                  auto value_other = value;
-                  value_other.rebase(rebase.first, rebase.second);
-                  subschema.assign(
-                      keyword, sourcemeta::core::JSON{value_other.recompose()});
+                  value.rebase(rebase.first, rebase.second);
+                  subschema.assign(keyword,
+                                   sourcemeta::core::JSON{value.recompose()});
                   return;
                 }
               }
