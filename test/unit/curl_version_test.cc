@@ -1,6 +1,6 @@
-#include <gtest/gtest.h>
 #include <curl/curl.h>
 #include <curl/curlver.h>
+#include <gtest/gtest.h>
 
 TEST(CurlVersion, VerifyVersion814) {
   EXPECT_STREQ(LIBCURL_VERSION, "8.14.0-DEV");
@@ -16,10 +16,10 @@ TEST(CurlVersion, VerifyVersionNum) {
 TEST(CurlVersion, VerifyInitialization) {
   CURLcode result = curl_global_init(CURL_GLOBAL_DEFAULT);
   EXPECT_EQ(result, CURLE_OK);
-  
+
   curl_version_info_data *version_info = curl_version_info(CURLVERSION_NOW);
   EXPECT_NE(version_info, nullptr);
   EXPECT_STREQ(version_info->version, "8.14.0-DEV");
-  
+
   curl_global_cleanup();
 }
