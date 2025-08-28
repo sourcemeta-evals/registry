@@ -174,11 +174,11 @@ auto Resolver::add(const sourcemeta::core::URI &server_url,
               }
 
               for (const auto &rebase : rebases) {
-                auto value_other = value;
-                value_other.rebase(rebase.first, rebase.second);
-                if (value_other != value) {
+                auto original_value = value;
+                value.rebase(rebase.first, rebase.second);
+                if (value != original_value) {
                   subschema.assign(
-                      keyword, sourcemeta::core::JSON{value_other.recompose()});
+                      keyword, sourcemeta::core::JSON{value.recompose()});
                   return;
                 }
               }
